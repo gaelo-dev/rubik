@@ -108,7 +108,7 @@ mod tests {
         assert_eq!(cube.to_string(), "UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB");
 
         cube.apply_move("U");
-        println!("{}", cube);
+        assert_eq!(cube.to_string(), "UUUUUUUUUBBBRRRRRRRRRFFFFFFDDDDDDDDDFFFLLLLLLLLLBBBBBB");
     }
 }
 

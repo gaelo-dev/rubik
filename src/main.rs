@@ -5,7 +5,7 @@ use iced::{
         }, 
         text_input, column, row, button
     },
-    Sandbox, Element, Vector, Color, Point, Size, Settings, Theme
+    Sandbox, Element, Vector, Point, Size, Settings, Theme, Color
 };
 use rubik::Cube as GCube;
 
