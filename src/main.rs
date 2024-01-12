@@ -1,11 +1,11 @@
 use iced::{
     widget::{
         canvas::{
-            self, Cursor, Frame, Geometry, Path, Stroke
+            self, Frame, Geometry, Path, Stroke
         }, 
         text_input, column, row, button
     },
-    Sandbox, Element, Vector, Point, Size, Settings, Theme, Color
+    Sandbox, Element, Vector, Point, Size, Settings, Renderer, Theme, Color, mouse
 };
 use rubik::Cube as GCube;
 
@@ -58,9 +58,10 @@ impl Sandbox for Rubik {
     fn view(&self) -> Element<'_, Self::Message> {
         column![
             row![
-                text_input("moves", &self.moves, Message::InputChange),
-                button("Apply")
-                    .on_press(Message::Apply),
+                text_input("moves", &self.moves)
+                    .on_input(Message::InputChange)
+                    .on_submit(Message::Apply),
+                // button("Apply").on_press(Message::Apply),
                 button("Reset")
                     .on_press(Message::Reset)
             ],
@@ -112,7 +113,7 @@ impl Into<Color> for Sticker {
     }
 }
 
-fn cube<Msg>(sc: f32, state: &str) -> canvas::Canvas<Msg, Theme, FCube> {
+fn cube<Msg>(sc: f32, state: &str) -> canvas::Canvas<FCube, Msg> {
     canvas::Canvas::new(FCube::new(sc, state))
 }
 
@@ -161,11 +162,12 @@ impl<Msg> canvas::Program<Msg> for FCube {
     fn draw(
         &self,
         _state: &Self::State,
-        _theme: &iced_native::Theme,
+        renderer: &Renderer,
+        _theme: &Theme,
         _bounds: iced::Rectangle,
-        _cursor: Cursor,
+        _cursor: mouse::Cursor,
     ) -> Vec<Geometry> {
-        let mut frame = Frame::new(Size::new(13. * self.sc, 10. * self.sc));
+        let mut frame = Frame::new(renderer, Size::new(13. * self.sc, 10. * self.sc));
         frame.translate(Vector::new(self.sc / 2.0, self.sc / 2.0));
         
         self.draw_face(&mut frame, 0, 0, 3); // U
