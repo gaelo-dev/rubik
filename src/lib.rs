@@ -21,6 +21,10 @@ impl Sticker {
             self.pos = glm::round(&new_pos);
         }
     }
+
+    fn get_original_face(&self) -> char {
+        get_face(&self.dst)
+    }
 }
 
 fn get_face(axis: &glm::Vec3) -> char {
@@ -81,7 +85,7 @@ impl Display for Cube {
             });
 
             for s in stickers {
-                scube.push(get_face(&s.dst));
+                scube.push(s.get_original_face());
             }
         };
 
@@ -100,7 +104,7 @@ impl Display for Cube {
 
 #[cfg(test)]
 mod tests {
-    use super::{Cube};
+    use super::Cube;
 
     #[test]
     fn it_works() {
